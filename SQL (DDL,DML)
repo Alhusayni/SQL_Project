@@ -1,0 +1,97 @@
+create database store;
+
+use store;
+
+CREATE TABLE countries (
+    code int NOT NULL,
+    name varchar(20) NOT NULL,
+    continent_name varchar(20) UNIQUE,
+    PRIMARY KEY (code)
+);
+
+create TABLE users (
+    id int NOT NULL,
+    full_name varchar(20),
+    email varchar(20) UNIQUE,
+    gender char(1),
+    date_of_birth varchar(15),
+    created_at datetime,
+    country_code int,
+    primary key (id),
+    foreign key (country_code) references countries(code),
+    check ( gender in ('m', 'f') )
+);
+
+
+create TABLE orders(
+    id int,
+    user_id int,
+    status varchar(6),
+    created_at datetime,
+    primary key (id),
+    foreign key (user_id) references users(id),
+    check ( status in ('start', 'finish') )
+);
+
+create TABLE order_products(
+    order_id int,
+    product_id int,
+    quantity int DEFAULT 0,
+    primary key (order_id, product_id),
+    foreign key (order_id) references orders(id),
+    foreign key (product_id) references products(id)
+);
+
+
+create Table products(
+    id int,
+    name varchar(10) not null ,
+    price int DEFAULT 0,
+    status varchar(10),
+    created_at datetime,
+    primary key (id),
+    check ( status in ('valid', 'expired'))
+);
+
+alter table users
+modify column created_at datetime default CURRENT_TIMESTAMP;
+
+alter table orders
+modify column created_at datetime default CURRENT_TIMESTAMP;
+
+alter table products
+modify column created_at datetime default CURRENT_TIMESTAMP;
+
+insert into countries
+VALUES (1, 'SaudiArabia', 'Asia');
+
+
+insert into users(id, full_name, email, gender, date_of_birth,  country_code)
+VALUES (1, 'Abdulrahman', 'alhusayn@gmail.com', 'm',
+        '1997-10-15',1);
+
+insert into orders(id, user_id, status)
+VALUES (1,1,'start');
+
+insert into products(id, name, price, status)
+VALUES (1,'Laptop', 3000,'valid');
+
+insert into products(id, name, price, status)
+VALUES (2,'iPad', 1500,'expired');
+
+insert into order_products
+VALUES (1,1,2);
+
+
+update countries
+SET name = 'UAE'
+where code = 1;
+
+DELETE from products where status= 'expired';
+
+
+
+
+
+
+
