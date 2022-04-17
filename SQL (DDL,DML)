@@ -4,8 +4,8 @@ use store;
 
 CREATE TABLE countries (
     code int NOT NULL,
-    name varchar(20) NOT NULL,
-    continent_name varchar(20) UNIQUE,
+    name varchar(20) UNIQUE,
+    continent_name varchar(20) NOT NULL,
     PRIMARY KEY (code)
 );
 
