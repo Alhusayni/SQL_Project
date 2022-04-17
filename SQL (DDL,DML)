@@ -33,15 +33,6 @@ create TABLE orders(
     check ( status in ('start', 'finish') )
 );
 
-create TABLE order_products(
-    order_id int,
-    product_id int,
-    quantity int DEFAULT 0,
-    primary key (order_id, product_id),
-    foreign key (order_id) references orders(id),
-    foreign key (product_id) references products(id)
-);
-
 
 create Table products(
     id int,
@@ -53,6 +44,19 @@ create Table products(
     check ( status in ('valid', 'expired'))
 );
 
+
+create TABLE order_products(
+    order_id int,
+    product_id int,
+    quantity int DEFAULT 0,
+    primary key (order_id, product_id),
+    foreign key (order_id) references orders(id),
+    foreign key (product_id) references products(id)
+);
+
+
+
+
 alter table users
 modify column created_at datetime default CURRENT_TIMESTAMP;
 
@@ -61,6 +65,7 @@ modify column created_at datetime default CURRENT_TIMESTAMP;
 
 alter table products
 modify column created_at datetime default CURRENT_TIMESTAMP;
+
 
 insert into countries
 VALUES (1, 'SaudiArabia', 'Asia');
@@ -88,6 +93,7 @@ SET name = 'UAE'
 where code = 1;
 
 DELETE from products where status= 'expired';
+
 
 
 
